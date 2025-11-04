@@ -9,7 +9,9 @@ import java.util.Properties;
 public class ConfigSessionFactoryForPlayerDao {
     private static SessionFactory sessionFactory;
 
+
     static {
+
         Configuration configuration = new Configuration();
         Properties properties =
                 new Properties();
@@ -18,8 +20,9 @@ public class ConfigSessionFactoryForPlayerDao {
         properties.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/projectHibernateJRU");
         properties.put("hibernate.connection.username", "postgres");
         properties.put("hibernate.connection.password", "admin");
-        properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.format_sql", "true");
 
         sessionFactory = configuration
                 .setProperties(properties)
