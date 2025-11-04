@@ -3,6 +3,7 @@ package com.game.repository;
 import com.game.entity.Player;
 import com.game.entity.Profession;
 import com.game.entity.Race;
+import com.game.exception.PlayerNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
@@ -74,15 +75,15 @@ public class PlayerRepositoryMemory implements IPlayerRepository {
     }
 
     @Override
-    public Player save(Player player) {
+    public Optional<Player> save(Player player) {
         player.setId(getMaxId() + 1);
         storage.add(player);
-        return player;
+        return Optional.ofNullable(player);
     }
 
     @Override
-    public Player update(Player player) {
-        return player;
+    public Optional<Player> update(Player player) {
+        return Optional.ofNullable(player);
     }
 
     @Override
@@ -91,8 +92,10 @@ public class PlayerRepositoryMemory implements IPlayerRepository {
     }
 
     @Override
-    public void delete(Player player) {
+    public Optional<Player> delete(long id) throws PlayerNotFoundException {
+        Player player = findById(id).orElseThrow(PlayerNotFoundException::new);
         storage.remove(player);
+        return Optional.ofNullable(player);
     }
 
     private long getMaxId() {

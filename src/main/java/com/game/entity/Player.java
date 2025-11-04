@@ -1,23 +1,46 @@
 package com.game.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
 
-
+@Entity
+@Table(name = "player", schema = "rpg")
+@NamedQuery(
+        name = "Player.selectCount",
+        query = "SELECT COUNT(*) FROM Player"
+)
 public class Player {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Имя не может быть равно null")
+    @Size(min = 0, max = 12, message = "Введите валидное имя, до 12 символов")
     private String name;
 
+    @NotNull(message = "Заголовок не может быть равен null")
+    @Size(min = 0, max = 30, message = "Введите валидный заголовок, до 30 символов")
     private String title;
 
+    @NotNull(message = "Заголовок не может быть равен null")
+    @Enumerated(EnumType.ORDINAL)
     private Race race;
 
+    @NotNull(message = "Заголовок не может быть равен null")
+    @Enumerated(EnumType.ORDINAL)
     private Profession profession;
 
+    @NotNull(message = "День рождения не может быть равен null")
     private Date birthday;
 
+    @NotNull(message = "Статус бана не может быть равен null")
     private Boolean banned;
 
+    @NotNull(message = "Уровень не может быть равен null")
     private Integer level;
 
     public Player() {

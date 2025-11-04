@@ -67,7 +67,13 @@ public class PlayerController {
         if (nonNull(info.name) && (info.name.length() > 12 || info.name.isEmpty())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         if (nonNull(info.title) && info.title.length() > 30) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
-        Player player = playerService.updatePlayer(id, info.name, info.title, info.race, info.profession, info.banned);
+        LocalDate localDate = new Date(info.birthday).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year = localDate.getYear();
+        if (year < 2000 || year > 3000) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+        Player player = playerService.updatePlayer(id, info.name, info.title, info.race,
+                info.profession, info.level, info.birthday, info.banned);
+
         if (isNull(player)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {

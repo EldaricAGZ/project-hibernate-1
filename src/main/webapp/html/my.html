@@ -258,6 +258,12 @@
         td_profession.innerHTML = getDropdownProfessionHtml(id);
         $(profession_id).val(profession_current_value).change();
 
+        let td_level = children[5];
+        td_level.innerHTML = "<input id='input_level_" + id + "' type='number' value='" + td_level.innerHTML + "'>";
+
+        let td_birthday = children[6];
+        td_birthday.innerHTML = "<input id='input_birthday_" + id + "' type='date' value='" + td_level.innerHTML + "'>";
+
         let td_banned = children[7];
         let banned_id = "#select_banned_" + id;
         let banned_current_value = td_banned.innerHTML;
@@ -271,6 +277,9 @@
         let value_title = $("#input_title_" + id).val();
         let value_race = $("#select_race_" + id).val();
         let value_profession = $("#select_profession_" + id).val();
+        let value_level = $("#input_level_" + id).val();
+        let value_birthday = $("#input_birthday_" + id).val();
+        let date_time = new Date(value_birthday).getTime();
         let value_banned = $("#select_banned_" + id).val();
 
         let url = "/rest/players/" + id;
@@ -280,7 +289,10 @@
             dataType: 'json',
             contentType: 'application/json;charset=UTF-8',
             async: false,
-            data: JSON.stringify({"name": value_name, "title": value_title, "race": value_race, "profession": value_profession, "banned": value_banned}),
+            data: JSON.stringify({"name": value_name, "title": value_title,
+                "race": value_race, "profession": value_profession,
+                "level": value_level, "birthday" : date_time,
+                "banned": value_banned}),
             success: function () {
                 showList(getCurrentPage());
             }
